@@ -118,4 +118,18 @@
     DeleteNode(_node);
 }
 
+- (BOOL)isContains:(YIHtmlElement *)element {
+    if (element == nil) {
+        return false;
+    }
+    xmlNodePtr parentNode = element->_node->parent;
+    while (parentNode) {
+        if (parentNode == _node) {
+            return true;
+        }
+        parentNode = parentNode->parent;
+    }
+    return false;
+}
+
 @end

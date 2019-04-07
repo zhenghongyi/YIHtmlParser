@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)deleteCurNode;
 
+- (BOOL)isContains:(YIHtmlElement *)element;
+
 @end
 
 NS_ASSUME_NONNULL_END

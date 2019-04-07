@@ -107,4 +107,27 @@
     }];
 }
 
+- (void)testContains {
+    __block YIHtmlElement* e1;
+    __block YIHtmlElement* e2;
+    
+    [self.parser handleWithXPathQuery:@"//body" action:^(NSArray * _Nonnull elements) {
+        e1 = [elements firstObject];
+    }];
+    [self.parser handleWithXPathQuery:@"//div[@class='vcard']" action:^(NSArray * _Nonnull elements) {
+        e2 = [elements firstObject];
+    }];
+    XCTAssertTrue([e1 isContains:e2]);
+    XCTAssertFalse([e2 isContains:e1]);
+    
+    [self.parser handleWithXPathQuery:@"//div[@class='adr']" action:^(NSArray * _Nonnull elements) {
+        e1 = [elements firstObject];
+    }];
+    [self.parser handleWithXPathQuery:@"//div[@class='org']" action:^(NSArray * _Nonnull elements) {
+        e2 = [elements firstObject];
+    }];
+    XCTAssertFalse([e1 isContains:e2]);
+    XCTAssertFalse([e2 isContains:e1]);
+}
+
 @end
