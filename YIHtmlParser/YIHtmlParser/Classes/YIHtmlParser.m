@@ -45,6 +45,8 @@
         NSLog(@"Unable to create XPath context.");
         return;
     }
+    
+    [self completeSelfClosingTags];
 }
 
 - (void)endParser {
@@ -74,12 +76,41 @@
 }
 
 - (NSString *)resultHtml {
+    NSString* result;
+    
     xmlNodePtr rootNode = xmlDocGetRootElement(_doc);
     xmlBufferPtr buffer = xmlBufferCreate();
     xmlNodeDump(buffer, rootNode->doc, rootNode, 0, 0);
     NSString *htmlContent = [NSString stringWithCString:(const char *)buffer->content encoding:NSUTF8StringEncoding];
     xmlBufferFree(buffer);
-    return htmlContent;
+    
+    htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
+    htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"\t" withString:@"\\t"];
+    result = [htmlContent copy];
+    
+    NSRegularExpression* regex = [[NSRegularExpression alloc] initWithPattern:@"<!\\[CDATA\\[(.*?)\\]\\]>" options:0 error:nil];
+    
+    NSArray* matchs = [regex matchesInString:htmlContent options:0 range:NSMakeRange(0, result.length)];
+    
+    for (NSTextCheckingResult* matchResult in matchs) {
+        NSString* matchStr = [htmlContent substringWithRange:matchResult.range];
+        NSString* orginStr = [matchStr substringWithRange:NSMakeRange(9, matchStr.length - 12)];
+        result = [result stringByReplacingOccurrencesOfString:matchStr withString:orginStr];
+    }
+    
+    result = [result stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+    result = [result stringByReplacingOccurrencesOfString:@"\\t" withString:@"\t"];
+    
+    return result;
+}
+
+// 补全自闭合标签
+- (void)completeSelfClosingTags {
+    [self handleWithXPathQuery:@"//*[not(node())]" action:^(NSArray * _Nonnull elements) {
+        for (YIHtmlElement* e in elements) {
+            [e addContent:@"\n"];
+        }
+    }];
 }
 
 @end

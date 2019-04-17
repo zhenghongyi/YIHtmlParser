@@ -106,6 +106,10 @@
     return array;
 }
 
+- (void)addContent:(NSString *)content {
+    AddContent(_node, content);
+}
+
 - (void)setProperty:(NSDictionary<NSString*, NSString*> *)dictionary {
     SetPropertyForNode(_node, dictionary);
 }

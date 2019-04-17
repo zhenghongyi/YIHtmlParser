@@ -83,6 +83,10 @@ xmlXPathObjectPtr SearchXPathObj(NSString* query, xmlXPathContextPtr xpathCtx) {
 }
 
 // 增/改
+void AddContent(xmlNodePtr node, NSString* content) {
+    xmlNodeAddContent(node, BAD_CAST [content cStringUsingEncoding:NSUTF8StringEncoding]);
+}
+
 void SetPropertyForNode(xmlNodePtr node, NSDictionary<NSString*, NSString*>*dictionary) {
     [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
         xmlSetProp(node, (xmlChar*)[key cStringUsingEncoding:NSUTF8StringEncoding], (xmlChar *)[obj cStringUsingEncoding:NSUTF8StringEncoding]);

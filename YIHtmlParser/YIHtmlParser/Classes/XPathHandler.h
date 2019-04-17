@@ -22,6 +22,8 @@ NSDictionary* AttributeForNode(xmlNodePtr currentNode);
 
 xmlXPathObjectPtr SearchXPathObj(NSString* query, xmlXPathContextPtr xpathCtx);
 
+void AddContent(xmlNodePtr node, NSString* content);
+
 void SetPropertyForNode(xmlNodePtr node, NSDictionary<NSString*, NSString*>*dictionary);
 
 void SurroundNode(xmlNodePtr node, NSString* nodeName, NSString* nodeAttribute);

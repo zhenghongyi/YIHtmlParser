@@ -30,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithNode:(xmlNodePtr)node encoding:(nonnull NSString *)encoding;
 
+- (void)addContent:(NSString *)content;
+
 - (void)setProperty:(NSDictionary<NSString*, NSString*> *)dictionary;
 
 - (void)addSurround:(NSString *)nodeName attribute:(NSString *)attribute;
