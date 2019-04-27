@@ -57,4 +57,23 @@
     XCTAssertTrue([result isEqualToString:@"<html><head><style type=\"text/css\">\n</style></head><body><img src=\"\">\n</img></body></html>"]);
 }
 
+- (void)testNextSibling {
+    NSString* html = @"<div><table></table></div>";
+    NSData* data = [html dataUsingEncoding:NSUTF8StringEncoding];
+    YIHtmlParser* parser = [[YIHtmlParser alloc] initWithData:data encoding:nil];
+    [parser beginParser];
+    
+    [parser handleWithXPathQuery:@"//table" action:^(NSArray * _Nonnull elements) {
+        YIHtmlElement* e = elements.firstObject;
+        [e addNextSibling:@"div" attribute:@{@"color":@"blue"}];
+        [e addPrevSibling:@"pre" attribute:nil];
+    }];
+    
+    NSString* result = [parser resultHtml];
+    
+    [parser endParser];
+    
+    XCTAssertTrue([result isEqualToString:@"<html><body><div><pre>\n</pre><table>\n</table><div color=\"blue\">\n</div></div></body></html>"]);
+}
+
 @end

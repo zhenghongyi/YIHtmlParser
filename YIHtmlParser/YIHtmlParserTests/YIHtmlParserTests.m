@@ -97,7 +97,7 @@
     [self.parser handleWithXPathQuery:@"//table" action:^(NSArray * _Nonnull elements) {
         YIHtmlElement* element = elements.lastObject;
         
-        [element addSurround:@"pre" attribute:@"color='blue'"];
+        [element addParent:@"pre" attribute:@{@"color":@"blue"}];
     }];
     
     [self.parser handleWithXPathQuery:@"//pre" action:^(NSArray * _Nonnull elements) {

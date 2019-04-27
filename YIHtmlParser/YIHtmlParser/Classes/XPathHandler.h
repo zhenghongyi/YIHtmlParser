@@ -26,6 +26,10 @@ void AddContent(xmlNodePtr node, NSString* content);
 
 void SetPropertyForNode(xmlNodePtr node, NSDictionary<NSString*, NSString*>*dictionary);
 
-void SurroundNode(xmlNodePtr node, NSString* nodeName, NSString* nodeAttribute);
+void AddParent(xmlNodePtr curNode, NSString* nodeName, NSDictionary<NSString*, NSString*>* attribute);
+
+void AddNextSibling(xmlNodePtr curNode, NSString* nodeName, NSDictionary<NSString*, NSString*>* attribute);
+
+void AddPrevSibling(xmlNodePtr curNode, NSString* nodeName, NSDictionary<NSString*, NSString*>* attribute);
 
 void DeleteNode(xmlNodePtr node);

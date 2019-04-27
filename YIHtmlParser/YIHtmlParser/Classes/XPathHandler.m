@@ -83,6 +83,13 @@ xmlXPathObjectPtr SearchXPathObj(NSString* query, xmlXPathContextPtr xpathCtx) {
 }
 
 // 增/改
+xmlNodePtr CreateNode(NSString* nodeName, NSDictionary<NSString*, NSString*>* attribute) {
+    xmlNodePtr newNode = xmlNewNode(NULL, BAD_CAST [nodeName cStringUsingEncoding:NSUTF8StringEncoding]);
+    AddContent(newNode, @"\n");
+    SetPropertyForNode(newNode, attribute);
+    return newNode;
+}
+
 void AddContent(xmlNodePtr node, NSString* content) {
     xmlNodeAddContent(node, BAD_CAST [content cStringUsingEncoding:NSUTF8StringEncoding]);
 }
@@ -93,35 +100,21 @@ void SetPropertyForNode(xmlNodePtr node, NSDictionary<NSString*, NSString*>*dict
     }];
 }
 
-void SurroundNode(xmlNodePtr node, NSString* nodeName, NSString* nodeAttribute) {
-    xmlBufferPtr buffer = xmlBufferCreate();
-    xmlNodeDump(buffer, node->doc, node, 0, 0);
-    
-    char* nodeHeadStr = (char *)[[NSString stringWithFormat:@"<%@ %@>", nodeName, nodeAttribute] cStringUsingEncoding:NSUTF8StringEncoding];
-    char* nodeEndStr = (char *)[[NSString stringWithFormat:@"</%@>", nodeName] cStringUsingEncoding:NSUTF8StringEncoding];
-    
-    char* content = (char *)buffer->content;
-    xmlChar* newNodeStr = calloc(strlen(content) + strlen(nodeHeadStr) + strlen(nodeEndStr), 1);
-    if (!newNodeStr) {
-        return;
-    }
-    
-    strcat((char *)newNodeStr, nodeHeadStr);
-    strcat((char *)newNodeStr, content);
-    strcat((char *)newNodeStr, nodeEndStr);
-    
-    xmlDocPtr newDoc = xmlReadMemory((char *)newNodeStr, (int)strlen((char *)newNodeStr), NULL, NULL, 0);
-    xmlFree(newNodeStr);
-    
-    if (!newDoc) {
-        return;
-    }
-    
-    xmlNodePtr newNode = xmlDocGetRootElement(newDoc);
-    xmlNodePtr copyNode = xmlCopyNode(newNode, 1);
-    xmlReplaceNode(node, copyNode);
-    
-    xmlFreeDoc(newDoc);
+void AddParent(xmlNodePtr curNode, NSString* nodeName, NSDictionary<NSString*, NSString*>* attribute) {
+    xmlNodePtr newNode = xmlNewNode(NULL, BAD_CAST [nodeName cStringUsingEncoding:NSUTF8StringEncoding]);
+    xmlReplaceNode(curNode, newNode);
+    xmlAddChild(newNode, curNode);
+    SetPropertyForNode(newNode, attribute);
+}
+
+void AddNextSibling(xmlNodePtr curNode, NSString* nodeName, NSDictionary<NSString*, NSString*>* attribute) {
+    xmlNodePtr newNode = CreateNode(nodeName, attribute);
+    xmlAddNextSibling(curNode, newNode);
+}
+
+void AddPrevSibling(xmlNodePtr curNode, NSString* nodeName, NSDictionary<NSString*, NSString*>* attribute) {
+    xmlNodePtr newNode = CreateNode(nodeName, attribute);
+    xmlAddPrevSibling(curNode, newNode);
 }
 
 // 删

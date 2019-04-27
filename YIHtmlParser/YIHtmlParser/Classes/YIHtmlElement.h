@@ -24,8 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSDictionary* style;
 
-@property (nonatomic, assign, readonly) BOOL isSelfClosing;
-
 @property (nonatomic, copy, readonly) NSArray<YIHtmlElement*>* children;
 
 - (instancetype)initWithNode:(xmlNodePtr)node encoding:(nonnull NSString *)encoding;
@@ -34,7 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setProperty:(NSDictionary<NSString*, NSString*> *)dictionary;
 
-- (void)addSurround:(NSString *)nodeName attribute:(NSString *)attribute;
+- (void)addParent:(NSString *)nodeName attribute:(NSDictionary<NSString*, NSString*> *)attribute;
+
+- (void)addNextSibling:(NSString *)nodeName attribute:(NSDictionary<NSString*, NSString*> *)attribute;
+
+- (void)addPrevSibling:(NSString *)nodeName attribute:(NSDictionary<NSString*, NSString*> *)attribute;
 
 - (void)deleteCurNode;
 

@@ -89,10 +89,6 @@
     return nil;
 }
 
-- (BOOL)isSelfClosing {
-    return [self.html hasSuffix:@"/>"];
-}
-
 - (NSArray<YIHtmlElement *> *)children {
     NSMutableArray* array = [NSMutableArray array];
     xmlNodePtr childNode = _node->children;
@@ -114,8 +110,16 @@
     SetPropertyForNode(_node, dictionary);
 }
 
-- (void)addSurround:(NSString *)nodeName attribute:(NSString *)attribute {
-    SurroundNode(_node, nodeName, attribute);
+- (void)addParent:(NSString *)nodeName attribute:(NSDictionary<NSString*, NSString*> *)attribute {
+    AddParent(_node, nodeName, attribute);
+}
+
+- (void)addNextSibling:(NSString *)nodeName attribute:(NSDictionary<NSString*, NSString*> *)attribute {
+    AddNextSibling(_node, nodeName, attribute);
+}
+
+- (void)addPrevSibling:(NSString *)nodeName attribute:(NSDictionary<NSString*, NSString*> *)attribute {
+    AddPrevSibling(_node, nodeName, attribute);
 }
 
 - (void)deleteCurNode {
