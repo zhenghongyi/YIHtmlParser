@@ -59,7 +59,7 @@
     
     NSMutableArray* elements = [NSMutableArray array];
     xmlNodeSetPtr nodes = xpathObj->nodesetval;
-    if (!nodes && nodes != NULL) {
+    if (nodes != nil && nodes != NULL) {
         for (int i = 0; i < nodes->nodeNr; i ++) {
             YIHtmlElement* e = [[YIHtmlElement alloc] initWithNode:nodes->nodeTab[i] encoding:_encoding];
             [elements addObject:e];
