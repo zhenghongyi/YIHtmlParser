@@ -76,4 +76,36 @@
     XCTAssertTrue([result isEqualToString:@"<html><body><div><pre>\n</pre><table>\n</table><div color=\"blue\">\n</div></div></body></html>"]);
 }
 
+- (void)testSpecialCharacters {
+    NSString* html = @"<div>\\n</div><br>\\t<br/>哈哈<br/><br/>";
+    
+    NSData* data = [html dataUsingEncoding:NSUTF8StringEncoding];
+    YIHtmlParser* parser = [[YIHtmlParser alloc] initWithData:data encoding:nil];
+    [parser beginParser];
+    
+    NSString* result = [parser resultHtml];
+    
+    [parser endParser];
+    
+    XCTAssertTrue([result isEqualToString:@"<html><body><div>\\n</div><br/>\\t<br/>哈哈<br/><br/></body></html>"]);
+}
+
+- (void)testSelfClosedTags {
+    NSString* html = @"<div>\\n</div><br/><br>对对对<br/>哈哈<br/><br/>";
+    NSData* data = [html dataUsingEncoding:NSUTF8StringEncoding];
+    YIHtmlParser* parser = [[YIHtmlParser alloc] initWithData:data encoding:nil];
+    [parser beginParser];
+    NSString* result = [parser resultHtml];
+    [parser endParser];
+    XCTAssertTrue([result isEqualToString:@"<html><body><div>\\n</div><br/><br/>对对对<br/>哈哈<br/><br/></body></html>"]);
+    
+    html = @"<div>哈哈哈<p></p>哈<p>但是\nowi</p>快递</div>";
+    data = [html dataUsingEncoding:NSUTF8StringEncoding];
+    parser = [[YIHtmlParser alloc] initWithData:data encoding:nil];
+    [parser beginParser];
+    result = [parser resultHtml];
+    [parser endParser];
+    XCTAssertTrue([result isEqualToString:@"<html><body><div>哈哈哈<p/>哈<p>但是\nowi</p>快递</div></body></html>"]);
+}
+
 @end

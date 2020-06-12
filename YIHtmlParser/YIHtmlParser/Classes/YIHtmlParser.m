@@ -82,8 +82,13 @@
     NSString *htmlContent = [NSString stringWithCString:(const char *)buffer->content encoding:NSUTF8StringEncoding];
     xmlBufferFree(buffer);
     
-    htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
-    htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"\t" withString:@"\\t"];
+    NSString* tmpChar_N = @"<YIHTML_N>";
+    NSString* tmpChar_T = @"<YIHTML_T>";
+    NSString* tmpChar_R = @"<YIHTML_R>";
+    
+    htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"\n" withString:tmpChar_N];
+    htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"\t" withString:tmpChar_T];
+    htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"\r" withString:tmpChar_R];
     result = [htmlContent copy];
     
     NSRegularExpression* regex = [[NSRegularExpression alloc] initWithPattern:@"<!\\[CDATA\\[(.*?)\\]\\]>" options:0 error:nil];
@@ -96,8 +101,9 @@
         result = [result stringByReplacingOccurrencesOfString:matchStr withString:orginStr];
     }
     
-    result = [result stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
-    result = [result stringByReplacingOccurrencesOfString:@"\\t" withString:@"\t"];
+    result = [result stringByReplacingOccurrencesOfString:tmpChar_N withString:@"\n"];
+    result = [result stringByReplacingOccurrencesOfString:tmpChar_T withString:@"\t"];
+    result = [result stringByReplacingOccurrencesOfString:tmpChar_R withString:@"\r"];
     
     return result;
 }
@@ -106,7 +112,9 @@
 - (void)completeSelfClosingTags {
     [self handleWithXPathQuery:@"//*[not(node())]" action:^(NSArray * _Nonnull elements) {
         for (YIHtmlElement* e in elements) {
-            [e addContent:@"\n"];
+            if (![e.nodeName isEqualToString:@"br"] && ![e.nodeName isEqualToString:@"p"]) {
+                [e addContent:@"\n"];
+            }
         }
     }];
 }
