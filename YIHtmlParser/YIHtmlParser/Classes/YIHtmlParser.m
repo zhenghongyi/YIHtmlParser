@@ -54,7 +54,7 @@
     xmlFreeDoc(_doc);
 }
 
-- (void)handleWithXPathQuery:(NSString *)query action:(void(^)(NSArray* elements))action {
+- (void)handleWithXPathQuery:(NSString *)query action:(void(^)(NSArray<YIHtmlElement*>* elements))action {
     xmlXPathObjectPtr xpathObj = SearchXPathObj(query, _context);
     
     NSMutableArray* elements = [NSMutableArray array];
@@ -73,7 +73,7 @@
     xmlXPathFreeObject(xpathObj);
 }
 
-- (NSString *)resultHtml {
+- (nullable NSString *)resultHtml {
     NSString* result;
     
     xmlNodePtr rootNode = xmlDocGetRootElement(_doc);

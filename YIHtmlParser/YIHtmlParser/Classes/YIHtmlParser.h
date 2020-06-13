@@ -19,9 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)beginParser;
 - (void)endParser;
 
-- (void)handleWithXPathQuery:(NSString *)query action:(nullable void(^)(NSArray* elements))action;
+- (void)handleWithXPathQuery:(NSString *)query action:(nullable void(^)(NSArray<YIHtmlElement*>* elements))action;
 
-- (NSString *)resultHtml;
+- (nullable NSString *)resultHtml;
 
 @end
 
