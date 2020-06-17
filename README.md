@@ -7,9 +7,15 @@
 项目中一个主要功能是展示html，并且进行屏幕适配。但html各式各样，标签或者样式中设置了宽高属性，会导致展示不能适配屏幕，所以需要对html进行修改。
 
 
-网上对html进行解析的Hpple库，只能进行解析，无法修改，但看了下代码，主要是使用libxml，libxml本身其实不只解析的功能，于是又了这个库。
+网上对html进行解析的Hpple库，只能进行解析，无法修改，但看了下代码，主要是使用libxml，libxml本身其实不只解析的功能，于是有了这个库。
 
-## 效果
+## 安装
+
+```
+pod 'YIHtmlParser'
+```
+
+## 使用范例
 
 主要都是在YIHtmlSimpleTests和YIHtmlParserTests两个测试用例文件里有展示，这里贴一下YIHtmlSimpleTests。
 
