@@ -78,6 +78,9 @@
     
     xmlNodePtr rootNode = xmlDocGetRootElement(_doc);
     xmlBufferPtr buffer = xmlBufferCreate();
+    if (rootNode == NULL || rootNode == nil || buffer == NULL || buffer == nil) {
+        return nil;
+    }
     xmlNodeDump(buffer, rootNode->doc, rootNode, 0, 0);
     NSString *htmlContent = [NSString stringWithCString:(const char *)buffer->content encoding:NSUTF8StringEncoding];
     xmlBufferFree(buffer);
