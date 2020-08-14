@@ -32,11 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setProperty:(NSDictionary<NSString*, NSString*> *)dictionary;
 
-- (void)addParent:(NSString *)nodeName attribute:(NSDictionary<NSString*, NSString*> *)attribute;
+- (void)addParent:(NSString *)nodeName attribute:(nullable NSDictionary<NSString*, NSString*> *)attribute;
 
-- (void)addNextSibling:(NSString *)nodeName attribute:(NSDictionary<NSString*, NSString*> *)attribute;
+- (void)addNextSibling:(NSString *)nodeName attribute:(nullable NSDictionary<NSString*, NSString*> *)attribute;
 
-- (void)addPrevSibling:(NSString *)nodeName attribute:(NSDictionary<NSString*, NSString*> *)attribute;
+- (void)addPrevSibling:(NSString *)nodeName attribute:(nullable NSDictionary<NSString*, NSString*> *)attribute;
 
 - (void)deleteCurNode;
 

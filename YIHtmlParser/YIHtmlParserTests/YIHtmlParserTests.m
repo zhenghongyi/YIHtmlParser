@@ -67,6 +67,7 @@
     }];
 }
 
+// 测试设置style属性
 - (void)testStyle {
     [self.parser handleWithXPathQuery:@"//table" action:^(NSArray * _Nonnull elements) {
         YIHtmlElement* element = elements.lastObject;
@@ -77,6 +78,7 @@
     }];
 }
 
+// 测试设置属性
 - (void)testSetProperty {
     [self.parser handleWithXPathQuery:@"//table" action:^(NSArray * _Nonnull elements) {
         YIHtmlElement* element = elements.lastObject;
@@ -93,6 +95,7 @@
     }];
 }
 
+// 测试包裹一层父标签
 - (void)testSurround {
     [self.parser handleWithXPathQuery:@"//table" action:^(NSArray * _Nonnull elements) {
         YIHtmlElement* element = elements.lastObject;
@@ -107,6 +110,7 @@
     }];
 }
 
+// 测试包含关系
 - (void)testContains {
     __block YIHtmlElement* e1;
     __block YIHtmlElement* e2;
