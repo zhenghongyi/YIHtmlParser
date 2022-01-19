@@ -117,6 +117,10 @@ void AddPrevSibling(xmlNodePtr curNode, NSString* nodeName, NSDictionary<NSStrin
     xmlAddPrevSibling(curNode, newNode);
 }
 
+void AddChild(xmlNodePtr parent, xmlNodePtr child) {
+    xmlAddChild(parent, child);
+}
+
 // 删
 void DeleteNode(xmlNodePtr node) {
     xmlUnlinkNode(node);

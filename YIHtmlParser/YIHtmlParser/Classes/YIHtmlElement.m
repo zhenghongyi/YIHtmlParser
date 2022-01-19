@@ -36,6 +36,14 @@
     return self;
 }
 
++ (instancetype)createWithName:(NSString *)name attribute:(NSDictionary<NSString*, NSString*> *)attribute {
+    xmlNodePtr nodePtr = CreateNode(name, attribute);
+    if (nodePtr) {
+        return [[YIHtmlElement alloc] initWithNode:nodePtr encoding:nil];
+    }
+    return nil;
+}
+
 - (NSString *)html {
     if (!_html) {
         _html = HtmlForNode(_node);
@@ -120,6 +128,10 @@
 
 - (void)addPrevSibling:(NSString *)nodeName attribute:(NSDictionary<NSString*, NSString*> *)attribute {
     AddPrevSibling(_node, nodeName, attribute);
+}
+
+- (void)addChild:(YIHtmlElement *)child {
+    AddChild(_node, child->_node);
 }
 
 - (void)deleteCurNode {

@@ -133,4 +133,28 @@
     XCTAssertTrue([result isEqualToString:@"<html><body><p style=\"color:red; margin-left:20px\">This is a paragraph</p></body></html>"]);
 }
 
+// 测试添加子节点
+- (void)testAddChildNode {
+    NSString* html = @"<div>This is a div content</div>";
+    NSData* data = [html dataUsingEncoding:NSUTF8StringEncoding];
+    YIHtmlParser* parser = [[YIHtmlParser alloc] initWithData:data encoding:nil];
+    [parser beginParser];
+    
+    YIHtmlElement* childE = [YIHtmlElement createWithName:@"a" attribute:@{@"href":@"http://baidu.com"}];
+    
+    [parser handleWithXPathQuery:@"//div" action:^(NSArray<YIHtmlElement *> * _Nonnull elements) {
+        if (elements.count <= 0) {
+            return;
+        }
+        YIHtmlElement* divE = elements.firstObject;
+        [divE addChild:childE];
+    }];
+    
+    NSString* result = [parser resultHtml];
+    result = [parser resultHtml];
+    [parser endParser];
+    
+    XCTAssertTrue([result isEqualToString:@"<html><body><div>This is a div content<a href=\"http://baidu.com\">\n</a></div></body></html>"]);
+}
+
 @end

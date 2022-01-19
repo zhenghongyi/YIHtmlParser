@@ -26,7 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSArray<YIHtmlElement*>* children;
 
-- (instancetype)initWithNode:(xmlNodePtr)node encoding:(nonnull NSString *)encoding;
+- (instancetype)initWithNode:(xmlNodePtr)node encoding:(nullable NSString *)encoding;
+
++ (instancetype)createWithName:(NSString *)name attribute:(nonnull NSDictionary<NSString*, NSString*> *)attribute;
 
 - (void)addContent:(NSString *)content;
 
@@ -37,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addNextSibling:(NSString *)nodeName attribute:(nullable NSDictionary<NSString*, NSString*> *)attribute;
 
 - (void)addPrevSibling:(NSString *)nodeName attribute:(nullable NSDictionary<NSString*, NSString*> *)attribute;
+
+- (void)addChild:(YIHtmlElement *)child;
 
 - (void)deleteCurNode;
 

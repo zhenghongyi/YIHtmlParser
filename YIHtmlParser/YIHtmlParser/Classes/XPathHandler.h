@@ -22,6 +22,8 @@ NSDictionary* AttributeForNode(xmlNodePtr currentNode);
 
 xmlXPathObjectPtr SearchXPathObj(NSString* query, xmlXPathContextPtr xpathCtx);
 
+xmlNodePtr CreateNode(NSString* nodeName, NSDictionary<NSString*, NSString*>* attribute);
+
 void AddContent(xmlNodePtr node, NSString* content);
 
 void SetPropertyForNode(xmlNodePtr node, NSDictionary<NSString*, NSString*>*dictionary);
@@ -31,5 +33,7 @@ void AddParent(xmlNodePtr curNode, NSString* nodeName, NSDictionary<NSString*, N
 void AddNextSibling(xmlNodePtr curNode, NSString* nodeName, NSDictionary<NSString*, NSString*>* attribute);
 
 void AddPrevSibling(xmlNodePtr curNode, NSString* nodeName, NSDictionary<NSString*, NSString*>* attribute);
+
+void AddChild(xmlNodePtr parent, xmlNodePtr child);
 
 void DeleteNode(xmlNodePtr node);
