@@ -1,6 +1,9 @@
 # YIHtmlParser
 
-基于[Hpple](https://github.com/topfunky/hpple)而来，利用libxml对html进行增删改查。
+[![SPM supported](https://img.shields.io/badge/SPM-supported-4BC51D.svg?style=flat)](https://github.com/apple/swift-package-manager)
+[![podversion](https://img.shields.io/cocoapods/v/YIHtmlParser.svg?style=flat)](https://cocoapods.org/pods/YIHtmlParser)
+
+参考[Hpple](https://github.com/topfunky/hpple)而来，对比Hpple增加了可对html进行增删改查。
 
 ## 背景
 
@@ -11,9 +14,9 @@
 
 ## 安装
 
-```
-pod 'YIHtmlParser'
-```
+pod: `pod 'YIHtmlParser'`
+
+SPM: `package(url: "https://github.com/zhenghongyi/YIHtmlParser.git", .upToNextMajor(from: "1.0.4"))`
 
 ## 使用范例
 
