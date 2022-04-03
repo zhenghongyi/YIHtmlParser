@@ -58,11 +58,14 @@
     xmlXPathObjectPtr xpathObj = SearchXPathObj(query, _context);
     
     NSMutableArray* elements = [NSMutableArray array];
-    xmlNodeSetPtr nodes = xpathObj->nodesetval;
-    if (nodes != nil && nodes != NULL) {
-        for (int i = 0; i < nodes->nodeNr; i ++) {
-            YIHtmlElement* e = [[YIHtmlElement alloc] initWithNode:nodes->nodeTab[i] encoding:_encoding];
-            [elements addObject:e];
+    
+    if (xpathObj != NULL) {
+        xmlNodeSetPtr nodes = xpathObj->nodesetval;
+        if (nodes != nil && nodes != NULL) {
+            for (int i = 0; i < nodes->nodeNr; i ++) {
+                YIHtmlElement* e = [[YIHtmlElement alloc] initWithNode:nodes->nodeTab[i] encoding:_encoding];
+                [elements addObject:e];
+            }
         }
     }
     
