@@ -157,4 +157,20 @@
     XCTAssertTrue([result isEqualToString:@"<html><body><div>This is a div content<a href=\"http://baidu.com\">\n</a></div></body></html>"]);
 }
 
+- (void)testDeepTree {
+    NSString* html = @"<img src='https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png'>";
+    for (int i = 0; i < 255; i++) {
+        html = [NSString stringWithFormat:@"<div>%@</div>", html];
+    }
+    NSData* data = [html dataUsingEncoding:NSUTF8StringEncoding];
+    YIHtmlParser* parser = [[YIHtmlParser alloc] initWithData:data encoding:nil];
+    [parser beginParser];
+
+    NSString* result = [parser resultHtml];
+
+    [parser endParser];
+
+    XCTAssertTrue([result containsString:@"<img src=\"https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png\">"]);
+}
+
 @end

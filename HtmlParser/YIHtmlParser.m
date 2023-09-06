@@ -35,6 +35,15 @@
     const char *encoded = _encoding ? [_encoding cStringUsingEncoding:NSUTF8StringEncoding] : NULL;
     
     _doc = htmlReadMemory([_data bytes], (int)[_data length], "", encoded, HTML_PARSE_NOWARNING | HTML_PARSE_NOERROR);
+    xmlErrorPtr pErr = xmlGetLastError();
+    if (pErr != nil) {
+        NSString* pErrMsg = [NSString stringWithUTF8String:pErr->message];
+        if ([pErrMsg isEqualToString:@"Excessive depth in document: 256 use XML_PARSE_HUGE option\n"]) {
+            _doc = htmlReadMemory([_data bytes], (int)[_data length], "", encoded, HTML_PARSE_NOWARNING | HTML_PARSE_NOERROR | XML_PARSE_HUGE);
+        } else {
+            printf("xmlErr %s", pErr->message);
+        }
+    }
     if (_doc == NULL) {
         NSLog(@"Unable to parse.");
         return;
